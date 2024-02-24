@@ -38,7 +38,7 @@ export const  PRODUCT_CATEGORIES = [
             {
                 name:"Best selling icons",
                 href:"#",
-                imageSrc:"/nav/icons/bestseller.jpg"
+                imageSrc:"/nav/icons/bestsellers.jpg"
             },
         ]
 
