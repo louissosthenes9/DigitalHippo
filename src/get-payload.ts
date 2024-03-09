@@ -27,7 +27,7 @@ export const getPayloadClient= async ({
   if(!process.env.PAYLOAD_SECRET){
     throw new Error("payload secret is missing")
   }
-  if(cached.client){
+  if(cached.client){ 
     return cached.client
   } 
   if(!cached.promise){
