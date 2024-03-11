@@ -12,7 +12,7 @@ const start =  async ()=>{
             cms.logger.info(`Admin URL ${cms.getAdminURL()}`)
            }
         }
-    })
+    }) 
 
     app.use((req,res)=>Nexthandler(req,res))
     nextApp.prepare().then(()=>{
