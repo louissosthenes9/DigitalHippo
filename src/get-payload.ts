@@ -2,7 +2,7 @@ import dotenv from "dotenv"
 import path from "path"
 import type {InitOptions} from "payload/config"
 import { cache } from "react"
-import payload from "payload"
+import payload, { Payload } from "payload"
 
 
 
@@ -23,7 +23,7 @@ interface Args {
     initOptions?:Partial<InitOptions>
 }
 export const getPayloadClient= async ({
-    initOptions}:Args = {}) =>{
+    initOptions}:Args = {}): Promise<Payload|undefined> =>{
   if(!process.env.PAYLOAD_SECRET){
     throw new Error("payload secret is missing")
   }
