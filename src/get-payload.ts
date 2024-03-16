@@ -23,7 +23,7 @@ interface Args {
     initOptions?:Partial<InitOptions>
 }
 export const getPayloadClient= async ({
-    initOptions}:Args = {}): Promise<Payload|undefined> =>{
+    initOptions}:Args = {}): Promise<Payload> =>{
   if(!process.env.PAYLOAD_SECRET){
     throw new Error("payload secret is missing")
   }
@@ -44,4 +44,6 @@ export const getPayloadClient= async ({
     cached.promise = null
     throw e
   }
+
+  return cached.client
 } 
