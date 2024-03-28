@@ -1,5 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
+import VerifyEmail from '@/components/VerifyEmail'
 
 interface PageProps {
   searchParams: { [key: string]: string[] | undefined }
@@ -14,7 +15,7 @@ export default function page({ searchParams }: PageProps) {
       <div className="mx-auto flex flex-col w-full space-y-6 sm:w-[350px]">
         {token && typeof token === "string" ? (
           <div className="grid gap-6">
-            {/* Add your content for the token case here */}
+              <VerifyEmail token={token} />
           </div>
         ) : (
           <div className="flex flex-col space-y-1 h-full justify-center items-center">
