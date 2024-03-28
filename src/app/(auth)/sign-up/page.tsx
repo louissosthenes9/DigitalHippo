@@ -1,21 +1,21 @@
+"use client";
 import { Icons } from "@/components/Icons";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
-import { zodResolver } from '@hookform/resolvers/zod'
+import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import {
   AuthCredentialsValidator,
   TAuthCredentialsValidator,
-} from '@/lib/validators/account-credentials-validator'
-import { trpc } from '@/trpc/client'
-import { toast } from 'sonner'
-import { ZodError } from 'zod'
-import { useRouter } from 'next/navigation'
-import { useForm } from 'react-hook-form'
+} from "@/lib/validators/account-credentials-validator";
+import { trpc } from "@/trpc/client";
+import { toast } from "sonner";
+import { ZodError } from "zod";
+import { useForm } from "react-hook-form";
 const page = () => {
   const {
     register,
@@ -23,14 +23,15 @@ const page = () => {
     formState: { errors },
   } = useForm<TAuthCredentialsValidator>({
     resolver: zodResolver(AuthCredentialsValidator),
-  })
-  const onSubmit = ({
-    email,
-    password,
-  }: TAuthCredentialsValidator) => {
-  }
+  });
+  const onSubmit = ({ email, password }: TAuthCredentialsValidator) => {
+    mutate({
+      email,
+      password,
+    });
+  };
+  const { mutate, isLoading } = trpc.auth.createPayloadUser.useMutation({});
 
-  const { data }  = trpc.anyApiroute.useQuery()
   return (
     <>
       <div className="container relative flex flex-col items-center justify-center lg:px-0 pt-20">
@@ -44,36 +45,53 @@ const page = () => {
                 variant: "link",
                 className: "gap-1.5",
               })}
-              href="/sign-in"
+              href="/sign-up"
             >
               Already have an account? sign-in
               <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
-        
-        {/* sign up form */}
-        <div className="grid gap-6">
-          <form>
-            <div className="grid gap-2">
-              <div className="grid gap-1 py-2"></div>
-              <Label htmlFor="Password">Password</Label>
-              <Input
-                className={cn({
-                  "focus-visible-ring-red-500": true,
-                })}
-                placeholder="you@email.com"
-              />
 
-              <Label htmlFor="emai">Emai</Label>
-              <Input
-                className={cn({
-                  "focus-visible-ring-red-500": true,
-                })}
-                placeholder="password"
-              />
-              <Button >sign up</Button>
-            </div>
-          </form>
+          {/* sign up form */}
+          <div className="grid gap-6">
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div className="grid gap-2">
+                <div className="grid gap-1 py-2">
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                    {...register("email")}
+                    className={cn({
+                      "focus-visible-ring-red-500": errors.email,
+                    })}
+                    type="email"
+                    placeholder="you@email.com"
+                  />
+
+                  {errors?.password && (
+                    <p className="text-sm text-red-500">
+                      {errors.password.message}
+                    </p>
+                  )}
+                </div>
+                <div className="grid gap-1 py-2">
+                  <Label htmlFor="password">Passsword</Label>
+                  <Input
+                    {...register("password")}
+                    className={cn({
+                      "focus-visible-ring-red-500": errors.password,
+                    })}
+                    type="password"
+                    placeholder="password"
+                  />
+                </div>
+                {errors?.password && (
+                    <p className='text-sm text-red-500'>
+                      {errors.password.message}
+                    </p>
+                  )}
+                <Button>sign up</Button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
