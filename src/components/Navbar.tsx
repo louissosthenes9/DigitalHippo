@@ -29,7 +29,7 @@ export default function Navbar() {
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
                   {user ? null : (
                     <Link
-                      href={"/sign in"}
+                      href={"/sign-up"}
                       className={buttonVariants({
                         variant: "ghost",
                       })}
