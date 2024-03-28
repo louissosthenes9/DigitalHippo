@@ -27,9 +27,14 @@ export const authRouter = router({
             {
                 collection:"users",
                 data:{
-                      
+                      email,
+                      password,
+                      role:'user',
+
                 },
             }
+           
           )
+          return {success:true,sentToEmail:email }
     })
 })
