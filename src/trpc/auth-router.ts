@@ -9,6 +9,7 @@ export const authRouter = router({
     .mutation( async ({input})=>{
           const { email, password} = input
           const payload = await getPayloadClient()
+
           //check if user exists
 
           const {docs : users} = await payload.find({
@@ -30,11 +31,10 @@ export const authRouter = router({
                       email,
                       password,
                       role:'user',
-
                 },
             }
            
           )
-          return {success:true,sentToEmail:email }
+          return {success:true, sentToEmail:email }
     })
 })
