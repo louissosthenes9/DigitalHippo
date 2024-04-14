@@ -20,9 +20,13 @@ import {
 import { trpc } from '@/trpc/client'
 import { toast } from 'sonner'
 import { ZodError } from 'zod'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 const Page = () => {
+ 
+  const searchParams = useSearchParams();
+  const isSeller = searchParams.get('as')==='seller'
+  const origin = searchParams.get('as')==='origin'
   const {
     register,
     handleSubmit,
@@ -34,7 +38,24 @@ const Page = () => {
   const router = useRouter()
 
   const { mutate, isLoading } =
-    trpc.auth.createPayloadUser.useMutation({
+    trpc.auth.signIn.useMutation(
+
+  {
+       onSuccess:()=>{
+         toast.success('signin successfull')
+         router.refresh()
+
+         if(origin){
+           router.push(`/${origin}`)
+          return 
+         }
+         if(isSeller){
+          router.push(`/seller`)
+          return
+         }
+
+         router.push('/')
+       },
       onError: (err) => {
         if (err.data?.code === 'CONFLICT') {
           toast.error(
@@ -53,12 +74,6 @@ const Page = () => {
         toast.error(
           'Something went wrong. Please try again.'
         )
-      },
-      onSuccess: ({ sentToEmail }) => {
-        toast.success(
-          `Verification email sent to ${sentToEmail}.`
-        )
-        router.push('/verify-email?to=' + sentToEmail)
       },
     })
 
