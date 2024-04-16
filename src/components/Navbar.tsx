@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import React from "react";
 import { MaxWidthWrapper } from "./MaxWidthWrapper";
 import Link from "next/link";
@@ -6,8 +6,11 @@ import { Icons } from "./Icons";
 import NavItems from "./NavItems";
 import { buttonVariants } from "./ui/button";
 import Cart from "./Cart";
-export default function Navbar() {
-  const user = null;
+import {getServerSideUser} from "@/lib/payload-utils";
+import {cookies} from "next/headers";
+export default async function  Navbar () {
+  const nextCookies = cookies()
+  const user = await getServerSideUser(nextCookies);
   return (
     <nav className="bg-white sticky z-50 top-0 inset-x-0 h-16">
       <header className="bg-white relative">
