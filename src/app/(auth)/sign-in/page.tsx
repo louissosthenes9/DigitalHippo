@@ -36,7 +36,12 @@ const Page = () => {
   })
 
   const router = useRouter()
-
+  const continueAsSelller =()=>{
+    router.push("?as=seller")
+  }
+  const continueAsBuyer =()=>{
+    router.replace('/sign-in',undefined)
+  }
   const { mutate, isLoading } =
     trpc.auth.signIn.useMutation(
 
@@ -69,7 +74,7 @@ const Page = () => {
           toast.error(err.issues[0].message)
 
           return
-        }
+         }
 
         toast.error(
           'Something went wrong. Please try again.'
@@ -91,7 +96,7 @@ const Page = () => {
           <div className='flex flex-col items-center space-y-2 text-center'>
             <Icons.logo className='h-20 w-20' />
             <h1 className='text-2xl font-semibold tracking-tight'>
-              Sign in into your account
+              Sign in into your {isSeller?"seller":""} account
             </h1>
 
             <Link
@@ -146,6 +151,33 @@ const Page = () => {
                 <Button>Login</Button>
               </div>
             </form>
+            <div className='relative'>
+              <div
+              aria-hidden="true"
+              className="absolute inset-0 flex items-center"
+              >
+                <span className='w-full border-1'></span>      
+              </div>
+              <div className='relative flex justify-center text-xs upper-case'>
+                    <div className='bg-background px-2 text-muted-foreground'>
+                         or
+                    </div>
+              </div>
+ 
+            </div>
+            {isSeller?
+            (
+            <Button
+               onClick={()=>{continueAsBuyer}} 
+               disabled={isLoading}
+               variant='secondary' >Continue as customer</Button>
+            ):
+            (<Button
+              disabled={isLoading}
+               variant='secondary'
+               onClick={continueAsSelller}
+               >Continue as seller</Button>)
+            }
           </div>
         </div>
       </div>
