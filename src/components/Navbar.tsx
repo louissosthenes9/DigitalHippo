@@ -8,6 +8,7 @@ import { buttonVariants } from "./ui/button";
 import Cart from "./Cart";
 import {getServerSideUser} from "@/lib/payload-utils";
 import {cookies} from "next/headers";
+import UserAccountNav from "./UserAccountNav";
 export default async function  Navbar () {
   const nextCookies = cookies()
   const {user} = await getServerSideUser(nextCookies);
@@ -30,7 +31,7 @@ export default async function  Navbar () {
 
               <div className="ml-auto flex items-center">
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-                  {user ? null : (
+                  {user ? <UserAccountNav user={user}/> : (
                     <Link
                       href={"/sign-up"}
                       className={buttonVariants({
