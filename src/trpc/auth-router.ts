@@ -15,6 +15,7 @@ export const authRouter = router({
 
           const {docs : users} = await payload.find({
             collection:"users",
+            overrideAccess:true,
             where:{
                 email:{
                     equals:email
