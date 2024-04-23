@@ -56,6 +56,7 @@ export const Products : CollectionConfig ={
             relationTo:"product_files",
             hasMany:false,
         },
+        
         {
             name:"approvedForSale",
             label:"Product Status",
