@@ -3,6 +3,7 @@ import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowDownToLine, CheckCircle, Leaf } from "lucide-react";
+import ProductReel from "@/components/ProductReel";
 
 export default function Home() {
   const perks = [
@@ -43,7 +44,7 @@ export default function Home() {
           </div>
         </div>
       </MaxWidthWrapper>
-
+        <ProductReel />
       <section className="border-t border-gray-200 bg-border-50">
         <MaxWidthWrapper className="20">
           <div className="grid grid-cols-1 sm:grid-cols-2 sm:gap-x-6 gap-y-12 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-0">
