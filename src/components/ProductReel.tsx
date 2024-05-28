@@ -1,7 +1,9 @@
+"use client"
 import { TQueryValidator } from '@/lib/validators/query-validator'
 import { trpc } from '../trpc/client'
 import Link from 'next/link'
 import React from 'react'
+import { Product } from '@/payload-types'
 interface ProductReelProps{
     title:string
     subtitle?:string
@@ -11,10 +13,26 @@ interface ProductReelProps{
 export default function ProductReel(props : ProductReelProps) {
     const {title,subtitle,href,query} = props
     const FALLBACK_LIMIT = 4
-    const {} = trpc.getinfiniteProducts.useInfiniteQuery({
+
+
+    
+    const {data:queryResults,isLoading} = trpc.getinfiniteProducts.useInfiniteQuery({
        limit:query.limit??FALLBACK_LIMIT,
-       query
+       query,
+    },{
+      getNextPageParam:(lastPage)=>lastPage.nextPage
     })
+
+
+    const products = queryResults?.pages.flatMap((page)=>page.items)
+
+    let map:(Product | null)[] = []
+
+    if(products && products.length){
+      map = products
+    }else if(isLoading){
+      map = new Array<null>(query.limit??FALLBACK_LIMIT).fill(null)
+    }
     return (
     <section className='md:flex md:items-center md:justify-between mb-4'>
      <div className="mx-w-2xl px-4 lg:max-w-4xl lg:px-0">
