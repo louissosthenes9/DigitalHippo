@@ -1,15 +1,16 @@
-'use client'
+"use client";
+import { PropsWithChildren, useState } from 'react';
+import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { trpc } from '@/trpc/client';
+import { httpBatchLink } from '@trpc/client';
+import { DehydratedState } from '@tanstack/react-query';
 
-import { PropsWithChildren, useState } from 'react'
-import {
-  QueryClient,
-  QueryClientProvider,
-} from '@tanstack/react-query'
-import { trpc } from '@/trpc/client'
-import { httpBatchLink } from '@trpc/client'
+interface PageProps {
+  dehydratedState?: DehydratedState;
+}
 
-const Providers = ({ children }: PropsWithChildren) => {
-  const [queryClient] = useState(() => new QueryClient())
+const Providers = ({ children, pageProps }: PropsWithChildren<{ pageProps?: PageProps }>) => {
+  const [queryClient] = useState(() => new QueryClient());
   const [trpcClient] = useState(() =>
     trpc.createClient({
       links: [
@@ -19,22 +20,22 @@ const Providers = ({ children }: PropsWithChildren) => {
             return fetch(url, {
               ...options,
               credentials: 'include',
-            })
+            });
           },
         }),
       ],
     })
-  )
+  );
 
   return (
-    <trpc.Provider
-      client={trpcClient}
-      queryClient={queryClient}>
+    <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>
-        {children}
+        <Hydrate state={pageProps?.dehydratedState || {}}>
+          {children}
+        </Hydrate>
       </QueryClientProvider>
     </trpc.Provider>
-  )
-}
+  );
+};
 
-export default Providers
+export default Providers;
