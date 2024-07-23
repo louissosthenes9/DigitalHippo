@@ -6,7 +6,7 @@ import {Pagination} from "swiper/modules"
 import "swiper/css/pagination"
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
-import { ChevronsRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react";
 interface ImageSliderProps {
   urls: string[]; // Use string type for image URLs
 }
@@ -44,6 +44,7 @@ export default function ImageSlider({ urls }: ImageSliderProps) {
     <div className="group relative bg-zinc-100 aspect-square overflow-hidden rounded-xl">
       <div className="absolute z-10 inset-0 opacity-0 group-hover:opacity-100 transition">
         <button
+        aria-label="next image"
         onClick={(e)=>{
           e.preventDefault()
 
@@ -53,16 +54,35 @@ export default function ImageSlider({ urls }: ImageSliderProps) {
         className={cn(activeStyles,"right-3 transition",{
           [inactiveStyles]:slideConfig.isEnd,
           "hover:bg-primary-300 text-primary-800 opacity-100": !slideConfig.isEnd 
-        })}><ChevronsRight  className="h-4 w-4 text-zinc-700 "/>{ ' '} </button>
-    
-      
-     <button>
+        })}><ChevronRight  className="h-4 w-4 text-zinc-700 "/>{ ' '} 
+        </button>
 
-     </button>
+        {/* the left button */}
+        <button
+        aria-label="previous image"
+        onClick={(e)=>{
+          e.preventDefault()
+
+          swiper?.slidePrev()
+        }}
+        
+        className={cn(activeStyles,"left-3 transition",{
+          [inactiveStyles]:slideConfig.isBeginning,
+          "hover:bg-primary-300 text-primary-800 opacity-100": !slideConfig.isBeginning 
+        })}><ChevronLeft className="h-4 w-4 text-zinc-700 "/>{ ' '} 
+        </button>
+    
     
        </div>
 
       <Swiper
+       pagination ={
+        {
+          renderBullet: (_,className)=>{
+            return `<span class = "rounded-full transition  ${className}"></span>`
+          }
+        }
+       }
        modules={[Pagination]}
        spaceBetween={50}
        slidesPerView={1}
@@ -84,3 +104,4 @@ export default function ImageSlider({ urls }: ImageSliderProps) {
     </div>
   );
 }
+ 
