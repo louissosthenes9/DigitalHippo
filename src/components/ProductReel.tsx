@@ -29,7 +29,7 @@ export default function ProductReel(props: ProductReelProps) {
     let map: (Product | null)[] = [];
 
     if (products && products.length) {
-        map = products;
+         map = products 
     } else if (isLoading) {
         map = new Array<null>(query.limit ?? FALLBACK_LIMIT).fill(null);
     }
@@ -56,7 +56,7 @@ export default function ProductReel(props: ProductReelProps) {
                     
 
                         {map.map((product,i)=>(
-                          <ProductListing  product={product} index={i}/>
+                          <ProductListing  key={i} product={product} index={i}/>
                         ))}
                     </div>
                 </div>
