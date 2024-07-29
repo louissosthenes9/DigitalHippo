@@ -1,10 +1,21 @@
+"use client"
+import { Media } from "@/payload-types"
 import { ProductFiles } from "@/collections/ProductFile";
+import AddToCartButton from "@/components/AddToCartButton";
+import ImageSlider from "@/components/ImageSlider";
 import { MaxWidthWrapper } from "@/components/MaxWidthWrapper";
+import ProductReel from "@/components/ProductReel";
+import { PRODUCT_CATEGORIES } from "@/config";
 import { getPayloadClient } from "@/get-payload";
-import { CheckIcon } from "lucide-react";
+import { formatPrice } from "@/lib/utils";
+import { ProductFile } from "@/payload-types";
+import { Check, CheckIcon, Shield } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+interface ProductImage {
+    url: string;
+}
 interface PageProps {
     params: {
         productId: string;
@@ -13,13 +24,23 @@ interface PageProps {
 
 const BREADCRUMBS = [
     { id: 1, name: "Home", href: '/' },
-    { id: 2, name: "Products", href: '/products' }
+  { id: 2, name: "Products", href: '/products' }
 ];
 
 interface Product {
+    images: {
+        image: string | Media;
+        id?: string | null;
+      }[];
+    category: string | any;
+    price:number;
     id: string;
     name: string;
-    approvedForSale: string;
+    approvedForSale?: ('pending' | 'approved' | 'denied') | null;
+    description:string;
+    product_files:string | ProductFile;
+    createdAt: string; 
+    updatedAt: string;
     // Add any other fields that your product object contains
 }
 
@@ -27,6 +48,8 @@ export default async function page({ params }: PageProps) {
     const { productId } = params;
     const payload = await getPayloadClient();
 
+   
+  
     const response = await payload.find({
         collection: "products",
         limit: 1,
@@ -44,6 +67,14 @@ export default async function page({ params }: PageProps) {
     const [product] = products;
 
     if (!product) return notFound();
+
+    const label = PRODUCT_CATEGORIES.find(({value})=>value===product?.category)?.label
+    const validUrls = product?.images.map(
+        ({image})=>(
+          typeof image === "string" ? image : image.url
+        )
+    ).filter(Boolean) as string[]
+
 
     return (
         <MaxWidthWrapper>
@@ -73,9 +104,71 @@ export default async function page({ params }: PageProps) {
                                 {product.name}
                             </h1>
                         </div>
+
+                        <section className="mt-4">
+                            <div className="flex items-center">
+                                 <p className="font-medium text-gray-900">{formatPrice(product.price)}</p>
+                                 <div className="pl-4 border-gray-300 ml-4 border-l text-muted-foreground">
+                                   {label}
+                                </div>
+                           
+                            </div>
+                            <div className="mt-4 space-y-6">
+                                <p className="text-base text-muted-foreground">
+                                    {product.description}
+                                </p>
+                                
+                            </div>
+                            <div className="mt- flex items-center">
+                                  <Check aria-hidden="true" className="h-5 w-5 text-green-500" />
+                                  <p className="ml-4 text-sm text-mutex-foreground">
+                                    Eligible for instant delivery
+                                  </p>
+                            </div>
+                        </section>
                     </div>
+
+
+
+                     {/* product images */}
+
+                     <div className="mt-10 lg:col-start-2 lg:row-start-2 lg:mt-0 lg:self-center">
+
+                          <div className="aspect-square rounded-lg">
+                             <ImageSlider urls={validUrls} />
+                          </div>
+                     </div>
+
+                     {/* add to cart */}
+                     <div className="mt-10 lg:col-start-1 lg:row-start-2 lg:max-w-lg lg:self-start">
+                            <div>
+                                <div className="mt-10">
+                                    <AddToCartButton product={product}/>
+                                </div>
+
+                                 <div className="mt-6 text-center">
+                                      <div className="group inline-flex text-sm text-medium">
+                                         <Shield aria-hidden="true"  className="mr-2 h-5 w-5 flex-shink-0 text-gray-500 "/>
+                                          <span className="text-muted-foreground hover:text-gray-700">
+                                             30 day Return guarantee
+                                          </span>
+
+                                      </div>
+                                 </div>
+                            </div>
+                     </div>
+
                 </div>
             </div>
+
+
+            <ProductReel 
+            href="/products" 
+            query={{category:product.category, limit:4}} 
+            title ={`similar ${label}`}
+            subtitle={`Browse similar high-quality ${label} just like ${product.name}`}
+             
+             />
         </MaxWidthWrapper>
     );
 }
