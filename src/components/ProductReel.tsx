@@ -24,7 +24,18 @@ export default function ProductReel(props: ProductReelProps) {
         getNextPageParam: (lastPage) => lastPage.nextPage,
     });
 
-    const products = queryResults?.pages.flatMap((page) => page.items);
+    const products = (queryResults?.pages.flatMap((page) => 
+  page.items.map((item: any): Product => ({
+      images: item.images,
+      id: item.id,
+      name: item.name,
+      price: item.price,
+      category: item.category,
+      product_files: item.product_files,
+      updatedAt: item.updatedAt,
+      createdAt: item.createdAt
+  }))
+) || []) as Product[];
 
     let map: (Product | null)[] = [];
 
