@@ -5,7 +5,7 @@ import { CollectionConfig } from "payload/types";
 import { Product } from "../../payload-types";
 import { ArrowRightSquare } from "lucide-react";
 import { stripe } from "../../lib/stripe";
-const addUser:BeforeChangeHook<Product>= async ({req,data})=>{
+const addUser:BeforeChangeHook<Product> = async ({req,data})=>{
     const user = req.user
 
     return {...data,user:user.id}
