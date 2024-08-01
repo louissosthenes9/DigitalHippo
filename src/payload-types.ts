@@ -39,6 +39,7 @@ export interface User {
 }
 
 export interface Product {
+  Price:number;
   id: string;
   user?: (string | null) | User;
   name: string;
