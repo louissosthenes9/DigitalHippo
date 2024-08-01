@@ -33,7 +33,8 @@ export default function ProductReel(props: ProductReelProps) {
       category: item.category,
       product_files: item.product_files,
       updatedAt: item.updatedAt,
-      createdAt: item.createdAt
+      createdAt: item.createdAt,
+      Price: item.Price
   }))
 ) || []) as Product[];
 
