@@ -201,7 +201,9 @@ const Page = () => {
             </div>
 
             <div className='mt-6'>         
-                Checkout
+               <Button size={'lg'} className='w-full'>
+                     checkout
+               </Button>
             </div>
           </section>
         </div>
