@@ -30,7 +30,7 @@ export default function ProductListing({ product, index }: ProductListingProps) 
 
   if (!product || !isVisible) return <ProductPlaceholder />;
 
-  console.log(product.price)
+  
 
   return (
     <Link
