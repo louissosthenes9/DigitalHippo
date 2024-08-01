@@ -1,4 +1,4 @@
-"use client"
+
 import { Media } from "@/payload-types"
 import { ProductFiles } from "@/collections/ProductFile";
 import AddToCartButton from "@/components/AddToCartButton";
