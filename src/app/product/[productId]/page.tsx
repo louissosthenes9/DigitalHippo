@@ -28,7 +28,7 @@ const BREADCRUMBS = [
 ];
 
 interface Product {
-    Price: string | number;
+    Price:number;
     images: {
         image: string | Media;
         id?: string | null;
