@@ -5,16 +5,29 @@ import { PRODUCT_CATEGORIES } from '@/config'
 import { useCart } from '@/hooks/use-cart'
 import { cn, formatPrice } from '@/lib/utils'
 import { trpc } from '@/trpc/client'
+import { darcula } from '@react-email/components'
 import { Check, Loader2, X } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
+type CreateSessionResult = { url: string } | { sessionId: string };
+
 const Page = () => {
   const { items, removeItem } = useCart()
 
   const router = useRouter()
+  const {mutate:createCheckOutSession,isLoading} = trpc.payment.createSession.useMutation({
+   onSuccess :(data)=>{
+       if('url' in data && (typeof data.url != null) ){
+        router.push(data.url as string)
+       }
+      
+   
+   }
+  })
+  
 
   const productIds = items.map(({ product }) => product.id)
 
@@ -201,7 +214,13 @@ const Page = () => {
             </div>
 
             <div className='mt-6'>         
-               <Button size={'lg'} className='w-full'>
+               <Button 
+               disabled = {items.length===0 || isLoading}
+               onClick={()=>createCheckOutSession({productIds})}
+               size={'lg'} 
+               
+               className='w-full'>
+                     {isLoading?<Loader2 className='w-5 h-5 animate-spin'/>:null}
                      checkout
                </Button>
             </div>
