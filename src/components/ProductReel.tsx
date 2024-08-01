@@ -29,7 +29,7 @@ export default function ProductReel(props: ProductReelProps) {
       images: item.images,
       id: item.id,
       name: item.name,
-      price: item.price,
+      price: item.Price,
       category: item.category,
       product_files: item.product_files,
       updatedAt: item.updatedAt,

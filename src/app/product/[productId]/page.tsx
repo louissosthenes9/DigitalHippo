@@ -28,6 +28,7 @@ const BREADCRUMBS = [
 ];
 
 interface Product {
+    Price: string | number;
     images: {
         image: string | Media;
         id?: string | null;
@@ -65,6 +66,7 @@ export default async function page({ params }: PageProps) {
 
     const products = response.docs as unknown as Product[];
     const [product] = products;
+
 
     if (!product) return notFound();
 
@@ -107,7 +109,7 @@ export default async function page({ params }: PageProps) {
 
                         <section className="mt-4">
                             <div className="flex items-center">
-                                 <p className="font-medium text-gray-900">{formatPrice(product.price)}</p>
+                                 <p className="font-medium text-gray-900">{formatPrice(product.Price)}</p>
                                  <div className="pl-4 border-gray-300 ml-4 border-l text-muted-foreground">
                                    {label}
                                 </div>
