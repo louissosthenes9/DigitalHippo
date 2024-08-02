@@ -9,7 +9,10 @@ const nextConfig = {
                 protocol:"http"
             }
         ]
-    }
+    },
+    experimental: {
+        serverComponentsExternalPackages: ['payload', 'nodemailer', 'dotenv'],
+      },
 };
 
 export default nextConfig;
