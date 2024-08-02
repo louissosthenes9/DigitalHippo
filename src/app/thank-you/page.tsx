@@ -41,6 +41,7 @@ const ThankYouPage = async ({
   const orderUserId =
     typeof order.user === 'string'
       ? order.user
+      //@ts-ignore
       : order.user.id
 
   if (orderUserId !== user?.id) {
@@ -82,7 +83,11 @@ const ThankYouPage = async ({
                 your receipt and order details to{' '}
                 {typeof order.user !== 'string' ? (
                   <span className='font-medium text-gray-900'>
-                    {order.user.email}
+                    
+                    {
+                      //@ts-ignore
+                    order.user.email
+                    }
                   </span>
                 ) : null}
                 .
@@ -187,6 +192,7 @@ const ThankYouPage = async ({
               </div>
 
               <PaymentStatus
+                 //@ts-ignore
                 isPaid={order._isPaid} 
                 orderEmail={(order.user as User).email}
                 orderId={order.id} 
