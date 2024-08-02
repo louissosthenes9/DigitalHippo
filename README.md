@@ -33,7 +33,7 @@ The purpose of the project is to learn the intricacies of e-commerce application
 - **[TanStack Query (React Query)](https://tanstack.com/query/latest):** Powerful asynchronous state management for TS/JS, React, Solid, and Vue.
 - **[Stripe](https://stripe.com):** A suite of APIs powering online payment processing and commerce solutions.
 - **[ShadCN](https://shadcn.dev/):** A modern component library for React.
-- **[Tailwindcss](https://tailwindcss.com):**css framework.
+- [Tailwindcss](https://tailwindcss.com):css framework.
 
 ## Installation
 
