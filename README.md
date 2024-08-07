@@ -95,6 +95,9 @@ Contributions are welcome! To contribute:
 
 Please ensure your code adheres to the project's coding standards and conventions.
 
+## screenshots
+<img src = "https://github.com/louissosthenes9/DigitalHippo/blob/main/public/screenshots/Screenshot%20(94).png" alt="landing page"  width="800" height="500"/>
+
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more information.
